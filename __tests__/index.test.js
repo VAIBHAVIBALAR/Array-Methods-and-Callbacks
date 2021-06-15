@@ -512,6 +512,6 @@ describe('getWinnersByYear', ()=>{
 
 describe('getAverageGoals', ()=>{
     it('getAverageGoals returns a number', ()=>{
-        expect(functions.getAverageGoals(getFinals(fifaData))).toBe('3.58');
+        expect(functions.getAverageGoals(getFinals)).toBe('3.58');
     })
 });

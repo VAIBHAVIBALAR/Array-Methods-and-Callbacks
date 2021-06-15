@@ -4,16 +4,24 @@ import { fifaData } from './fifa.js';
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 1: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Practice accessing data by console.log-ing the following pieces of data note, you may want to filter the data first 😉*/
-
+const finals2014 = fifaData.filter(function(item){
+    return item.Year === 2014 && item.Stage === 'Final';
+});
+console.log('Task 1', finals2014);
 //(a) Home Team name for 2014 world cup final
-
+console.log('task 1a', finals2014[0]['Home Team Name']);
 //(b) Away Team name for 2014 world cup final
+console.log('task 1b', finals2014[0]['Away Team Name']);
 
 //(c) Home Team goals for 2014 world cup final
+console.log('task 1c', finals2014[0]['Home Team Goals']);
 
 //(d) Away Team goals for 2014 world cup final
+console.log('task 1d', finals2014[0]['Away Team Goals']);
 
 //(e) Winner of 2014 world cup final */
+console.log('task 1e', finals2014[0]['Win conditions']);
+
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
@@ -24,10 +32,13 @@ Use getFinals to do the following:
 hint - you should be looking at the stage key inside of the objects
 */
 
-function getFinals(/* code here */) {
-   /* code here */
+function getFinals(data) {
+    const finals = data.filter(function(item){
+       return item.Stage === 'Final';
+   });
+   return finals;
 }
-
+console.log('array lt',getFinals(fifaData));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -36,9 +47,12 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(array,getFinalsCb) {
+    const finalStagedata = getFinalsCb(array);
+    const years = finalStagedata.map(item => item.Year)
+ return years;
 }
+console.log(getYears(fifaData,getFinals));
 
 
 
@@ -49,9 +63,20 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(array, getFinalsCb) {
+    
+    const finalStagedata = getFinalsCb(array);
+    const winners = [];
+    finalStagedata.forEach(function(item){
+        if(item['Home Team Goals'] > item['Away Team Goals']){
+            winners.push(item['Home Team Name']);
+        }else if(item['Away Team Goals'] > item['Home Team Goals']){
+            winners.push(item['Away Team Name']);
+        }
+    });
+    return winners;
 }
+console.log(getWinners(fifaData, getFinals));
 
 
 
@@ -65,10 +90,26 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
-}
+function getWinnersByYear(array, getYearsCb, getWinnersCb ) {
+    const finalGames =  getFinals(array); 
 
+    const winYearArray = finalGames.map(function(item)
+    {
+    let  currentWinner = "";
+    if(item['Home Team Goals'] > item['Away Team Goals']){
+        currentWinner = item['Home Team Name'];
+    }else if(item['Away Team Goals'] > item['Home Team Goals']){
+        currentWinner = item['Away Team Name'];
+    }
+    return {  Year:item.Year,
+              winnerCountry: currentWinner
+           }
+    });
+    const winArray = winYearArray.map(function(item)
+    { return `In ${item.Year}, ${item.winnerCountry} won the world cup!`});
+    return winArray;
+}
+console.log(getWinnersByYear(fifaData, getYears, getWinners));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -81,8 +122,13 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-   /* code here */
+function getAverageGoals(getFinalsCb) {
+    //taking final stage games
+    //taking total home team goals from final games
+    //taking total away team goals from final games
+    //calculating average for home team and away team
+    //rounding to second decimal place
+   
 }
 
 
