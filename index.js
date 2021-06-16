@@ -98,7 +98,7 @@ function getWinnersByYear(array, getYearsCb, getWinnersCb ) {
     let  currentWinner = "";
     if(item['Home Team Goals'] > item['Away Team Goals']){
         currentWinner = item['Home Team Name'];
-    }else if(item['Away Team Goals'] > item['Home Team Goals']){
+    }else if(item['Away Team Goals'] >= item['Home Team Goals']){
         currentWinner = item['Away Team Name'];
     }
     return {  Year:item.Year,
@@ -123,15 +123,28 @@ Use the higher order function getAverageGoals to do the following:
 */
 
 function getAverageGoals(getFinalsCb) {
-    //taking final stage games
-    //taking total home team goals from final games
-    //taking total away team goals from final games
-    //calculating average for home team and away team
-    //rounding to second decimal place
-   
+
+    const fifaFinal = getFinalsCb(fifaData);
+
+    const goalsHomeTeam = fifaFinal.map(item => item['Home Team Goals'])
+    console.log('TESTING', goalsHomeTeam);
+
+     const goalsAwayTeam = fifaFinal.map(item =>item['Away Team Goals'])
+     console.log('TESTING', goalsAwayTeam);
+
+    //finding the average of Home Goals
+    const avg1 = goalsHomeTeam.reduce((total,score) => total + score) /goalsHomeTeam.length;
+    const homeGoalsAverage = Math.round(avg1 * 100)/100
+    console.log(homeGoalsAverage); 
+    const avg2 = goalsAwayTeam.reduce((total,score) => total + score) /goalsAwayTeam.length;
+    const AwayGoalsAverage = Math.round(avg2 * 100)/100
+    console.log(AwayGoalsAverage); 
+    const totalAvg = homeGoalsAverage + AwayGoalsAverage;
+    var finalAvg = totalAvg.toString();
+
+    return finalAvg;
 }
-
-
+console.log(getAverageGoals(getFinals))
 
 
 /// 🥅 STRETCH 🥅 ///
